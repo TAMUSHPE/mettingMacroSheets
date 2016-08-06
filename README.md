@@ -20,3 +20,4 @@ If a row is highlighted yellow:
 If a row is highlighted red: 
 * It means the user said that was there first meeting therefore he probably isn't a member
 
+<img src='https://github.com/TAMUSHPE/mettingMacroSheets/blob/master/pointsMacro2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
