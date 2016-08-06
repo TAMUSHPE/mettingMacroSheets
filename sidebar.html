@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
+    <!-- The CSS package above applies Google styling to buttons and other elements. -->
+    <!-- Latest compiled and minified CSS & JS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  </head>
+  <body>
+		<legend>Auto Fill Points</legend>
+	
+		<div class="form-group">
+			<label for="url">Url Of Target Meeting Sheet</label>
+			<input id="url" type="text" class="form-control" placeholder="url">
+		</div>
+		<div class="form-group">
+			<label for="pointsColumn">Column for Points</label>
+			<input id="pointsColumn" type="text" class="form-control" value="B" placeholder="B">
+		</div>
+		<h4>Settings</h4>
+		<button data-toggle="collapse" onclick="toggleCurrentSheet()">Points Sheet Fields</button>
+		<br>
+		<div id="currentSheet" class="collapse">
+			<div class="form-group">
+				<label for="lastName">Last Name Column</label>
+				<input id="currentSheetlastName" type="text" class="form-control" value="A" placeholder="A">
+			</div>
+			<div class="form-group">
+				<label for="firstname">First Name Column</label>
+				<input id="currentSheetfirstName" type="text" class="form-control" value="B" placeholder="B">
+			</div>
+			<div class="form-group">
+				<label for="tamuApplicant">tamuApplicant Column</label>
+				<input id="currentSheettamuApplicant" type="text" class="form-control" value="C" placeholder="C">
+			</div>
+			<div class="form-group">
+				<label for="nationalMember">NationalMember Column</label>
+				<input id="currentSheetnationalMember" type="text" class="form-control" value="D" placeholder="D">
+			</div>	
+		</div>		
+        <br>
+        <button data-toggle="collapse" onclick="toggleMeetingSheet()">Meeting Sheet Fields</button>
+        <div id="meetingSheet" class="collapse">
+			<div class="form-group">
+				<label for="lastName">Last Name Column</label>
+				<input id="pastSheetlastName" type="text" class="form-control" value="C" placeholder="D">
+			</div>
+			<div class="form-group">
+				<label for="firstname">First Name Column</label>
+				<input id="pastSheetfirstName" type="text" class="form-control" value="B" placeholder="B">
+			</div>
+			<div class="form-group">
+				<label for="shirt">shirt Column</label>
+				<input id="pastSheetshirt" type="text" class="form-control" value="G" placeholder="G">
+			</div>
+			<div class="form-group">
+				<label for="shirt">first SHPE event Column</label>
+				<input id="pastSheetfirstEvent" type="text" class="form-control" value="E" placeholder="E">
+			</div>            
+            
+		</div>
+        <br>
+		<button type="submit" class="btn btn-primary" onclick="test()">Submit</button>
+
+  </body>
+  <script src="//code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script>
+	function toggleCurrentSheet(){
+		event.preventDefault();
+		$("#currentSheet").collapse('toggle');  // toggle
+	}
+    function toggleMeetingSheet(){
+		event.preventDefault();
+		$("#meetingSheet").collapse('toggle');  // toggle
+	}
+    function test(){
+           event.preventDefault();
+           var data = {
+           	url: $("#url").val(),
+           	pointsColumn: $("#pointsColumn").val(),
+             currentSheet: {
+           		firstName: $("#currentSheetfirstName").val(),
+           		lastName: $("#currentSheetlastName").val(),
+           		tamuApplicant: $("#currentSheettamuApplicant").val(),
+           		nationalMember: $("#currentSheetnationalMember").val()
+           	},
+           	pastSheet: {
+           		firstName: $("#pastSheetfirstName").val(),
+           		lastName: $("#pastSheetlastName").val(),
+           		shirt: $("#pastSheetshirt").val(),
+                firstEvent: $("#pastSheetfirstEvent").val(),
+           	}
+           };
+           google.script.run
+          .withSuccessHandler(complete)
+          .retrieveUserFields(data);
+          
+    }
+    function complete(){
+     google.script.host.close(); 
+    }
+</script>
+</html>
+
+
