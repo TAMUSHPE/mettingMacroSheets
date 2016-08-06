@@ -17,6 +17,7 @@ Key:
 After runining the script it might highlight some rows in the meeting sheet.  
 If a row is highlighted yellow: 
 * It means that you should make sure that this user isn't a member since they might have typed their name wrong   
+
 If a row is highlighted red: 
 * It means the user said that was there first meeting therefore he probably isn't a member
 
