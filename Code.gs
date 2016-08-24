@@ -1,3 +1,7 @@
+/*
+  created by: Nicolas Botello
+  Any concerns or requests https://github.com/TAMUSHPE/mettingMacroSheets/issues
+ */
 //sets up custom menu to bring up our options
 function onOpen() {
   SpreadsheetApp.getUi() // Or DocumentApp or FormApp.
