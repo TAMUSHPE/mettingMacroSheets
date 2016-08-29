@@ -13,7 +13,10 @@ Which will open a side bar with fields to enter:
 
 There is seetings for each sheet to change the defaults if you click the buttons and enter different columns.
 
-Key:  
+<b>if you have a file without a first event column</b> then change the deafult to <b>NONE</b> and it won't check that column but still do points     
+You can also just put a column with nothing on it and it will still work   
+
+Key:
 After runining the script it might highlight some rows in the meeting sheet.  
 If a row is highlighted yellow: 
 * It means that you should make sure that this user isn't a member since they might have typed their name wrong   
