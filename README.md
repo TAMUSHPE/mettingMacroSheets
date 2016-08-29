@@ -23,3 +23,6 @@ If a row is highlighted red:
 
 <img src='https://github.com/TAMUSHPE/mettingMacroSheets/blob/master/pointsMacro2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
+##References
+[Google Sheets API](https://developers.google.com/apps-script/guides/sheets)
