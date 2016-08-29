@@ -96,8 +96,9 @@ function compareSheet(data)
         if(compareNames(pastSheet,i, currentSheet,j))
         {
           //regex for shirt
+          var meetingPoint = 1;
           var extraPts = extraPointsCheck(pastSheet.shirtColumnValues[i][0]);                                       
-          currentSheet.pointValues[j][0]=1 + extraPts;
+          currentSheet.pointValues[j][0]=meetingPoint + extraPts;
           found = true;
           break;
         }
