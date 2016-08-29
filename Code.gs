@@ -2,6 +2,9 @@
   created by: Nicolas Botello
   Any concerns or requests https://github.com/TAMUSHPE/mettingMacroSheets/issues
  */
+//Global Variable 
+//Magical word not to use first event column
+var noFirstEventColumn = "NONE";
 //sets up custom menu to bring up our options
 function onOpen() {
   SpreadsheetApp.getUi() // Or DocumentApp or FormApp.
@@ -64,10 +67,18 @@ function setupRosterSheet(sheet,tamuApplicantColumn,nationalMemberColumn){
 function setupMeetingSheet(sheet,shirtColumn, firstEvent)
 {
   sheet.shirtColumn = letterToColumn(shirtColumn);
-  sheet.firstEventColumn = letterToColumn(firstEvent);
-  sheet.shirtColumnValues =  sheet.sheet.getSheetValues(sheet.firstNameRow, sheet.shirtColumn
+  //if magical word is there then don't check the event column
+  if(firstEvent !== noFirstEventColumn)
+  {
+    sheet.firstEventColumn = letterToColumn(firstEvent);
+      sheet.firstEventValues =  sheet.sheet.getSheetValues(sheet.firstNameRow, sheet.firstEventColumn
     , sheet.totalRows ,1);
-  sheet.firstEventValues =  sheet.sheet.getSheetValues(sheet.firstNameRow, sheet.firstEventColumn
+  }
+  else
+  {
+    sheet.firstEventColumn = noFirstEventColumn;
+  }
+  sheet.shirtColumnValues =  sheet.sheet.getSheetValues(sheet.firstNameRow, sheet.shirtColumn
     , sheet.totalRows ,1);
 }
 function compareSheet(data)
@@ -105,14 +116,14 @@ function compareSheet(data)
       }
     }
     //if this is your first SHPE meeting yes then highlight red
-    if ( String(pastSheet.firstEventValues[i][0]).toLowerCase().trim() === "yes")
+    //only if its not equal to the magical word for no first event column check
+    if ( pastSheet.firstEventColumn !== noFirstEventColumn && String(pastSheet.firstEventValues[i][0]).toLowerCase().trim() === "yes")
     {
       pastSheet.sheet.getRange("A"+(i+2)+":"+"I"+(i+2)).setBackground("red");
     }
     //highlight names that have not been found so human can double check
     else if(!found)
     {
-      //startRow, startColumn, numRows, numColumns
       pastSheet.sheet.getRange("A"+(i+2)+":"+"I"+(i+2)).setBackground("yellow");
     }
   }  
