@@ -28,5 +28,5 @@ If a row is highlighted red:
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ##References
-[Google Sheets API](https://developers.google.com/apps-script/guides/sheets)
-[How To add more macros[(https://github.com/TAMUSHPE/mettingMacroSheets/wiki)
+[Google Sheets API](https://developers.google.com/apps-script/guides/sheets)    
+[How To add more macros](https://github.com/TAMUSHPE/mettingMacroSheets/wiki)
