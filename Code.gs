@@ -81,11 +81,26 @@ function setupMeetingSheet(sheet,shirtColumn, firstEvent)
   sheet.shirtColumnValues =  sheet.sheet.getSheetValues(sheet.firstNameRow, sheet.shirtColumn
     , sheet.totalRows ,1);
 }
-function compareSheet(data)
+/**
+ * compareSheet compares the two sheets current sheet is the "Roster" and pastSheet is the url sheet and sets points
+ * pointsFunction is the function used to evaluate the points it takes in two params returns a Number the points
+ *                @param {Object} [pastSheet] [object that contains helper values for pastSheet]
+ *                @param {Number} [i]         [the index of the current row it is on]
+ * extraSetup is a param where you can pass a function and it will call it add more fields to use in pointsFunction params:
+ *                @param {Object} [pastSheet] [object that contains helper values for pastSheet]
+ * @param  {object} data           [object that contains all the fields that are needed to setup the sheets can be found in retrieveFields function]
+ * @param  {function} pointsFunction [Function used to give assign the points ]
+ * @param  {function} extraSetup     [Function can be empty, possible to help setup other fields needed to calculate points]
+ */
+function compareSheet(data, pointsFunction, extraSetup)
 {
   var url = data.url;
   var targetColumn = data.pointsColumn;
-
+  //points Function must be a function or everything will break
+  if(typeof pointsFunction !== "function")
+  {
+    return;
+  } 
   var FirstSheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var SecondSheet = SpreadsheetApp.openByUrl(url);
   var currentSheet = sheet(FirstSheet, data.currentSheet.firstName ,3, data.currentSheet.lastName);
@@ -95,6 +110,11 @@ function compareSheet(data)
 
   var pastSheet = sheet(SecondSheet, data.pastSheet.firstName ,2, data.pastSheet.lastName);
   setupMeetingSheet(pastSheet, data.pastSheet.shirt, data.pastSheet.firstEvent);
+  //add a possible setup function
+  if(typeof extraSetup !== "undefined" && typeof extraSetup === "function")
+  {
+    extraSetup(pastSheet);
+  }
   for(var i = 0; i < pastSheet.firstNameValues.length; i++)
   {
     var found = false;
@@ -105,11 +125,8 @@ function compareSheet(data)
       {
          //cell from all names part of org
         if(compareNames(pastSheet,i, currentSheet,j))
-        {
-          //regex for shirt
-          var meetingPoint = 1;
-          var extraPts = extraPointsCheck(pastSheet.shirtColumnValues[i][0]);                                       
-          currentSheet.pointValues[j][0]=meetingPoint + extraPts;
+        {                       
+          currentSheet.pointValues[j][0]= pointsFunction(pastSheet, i);
           found = true;
           break;
         }
@@ -131,6 +148,20 @@ function compareSheet(data)
   currentSheet.sheet.getRange(targetColumn+currentSheet.firstNameRow+":"+targetColumn+currentSheet.lastRow).setValues(currentSheet.pointValues); 
 
 }
+/**
+ * regularPoints returns the number of points for a regular meeting, meeting point + points for SHPE werables
+ * @param  {object} pastSheet [object that contains fields of the sheet we are comparing it to]
+ * @param  {Number} i         [current row number]
+ * @return {Number}           [Number of points that person will get]
+ */
+function regularPoints(pastSheet, i)
+{
+  var meetingPoint = 1;
+  //regex for shirt
+  var extraPts = extraPointsCheck(pastSheet.shirtColumnValues[i][0]);  
+  return meetingPoint + extraPts;   
+}
+
 /**
  * extraPointsCheck checks if the value contains t-shirt or fleece and gives extra points
  * @param  {[String]} value [value containing if the person is wearing a shirt]
@@ -194,7 +225,7 @@ function test ()
               shirt: "G",
               firstEvent: "E",
             }};
-  compareSheet(inputData);
+  compareSheet(inputData, regularPoints);
 }
 
 function showSidebar() {
@@ -233,6 +264,6 @@ function letterToColumn(letter)
 function retrieveUserFields(data)
 {
   //test();
-  compareSheet(data);
+  compareSheet(data, regularPoints);
   return true;
 }
