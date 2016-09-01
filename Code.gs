@@ -267,3 +267,27 @@ function retrieveUserFields(data)
   compareSheet(data, regularPoints);
   return true;
 }
+
+
+//will check if user has not payed all memberships  if so then send an email reminder to pay for it
+function sendMembershipReminderEmails(data)
+{
+  //setup all roster values needed
+  var FirstSheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var currentSheet = sheet(FirstSheet, data.currentSheet.firstName ,3, data.currentSheet.lastName);
+  currentSheet.pointValues = currentSheet.sheet.getSheetValues(currentSheet.firstNameRow, letterToColumn(targetColumn), 
+   currentSheet.totalRows,1);
+  setupRosterSheet(currentSheet, data.currentSheet.tamuApplicant, data.currentSheet.nationalMember);
+  //go through all of the tamu and national member columns and check if any of them no or blank then we need 
+  //to send an email 
+  
+
+}
+//send an email 
+function sendEmail(email, user)
+{
+    var subject = "";
+    var body = "";
+    // Send yourself an email with a link to the document.
+    MailApp.sendEmail(email, subject, body);
+}
